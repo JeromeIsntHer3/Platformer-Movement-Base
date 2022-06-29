@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +11,12 @@ public class HealthBar : MonoBehaviour
         SetHealth();
         healthBar = GetComponent<Slider>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player.OnHealthChange += Player_OnHealthChanged;
+    }
+
+    private void Player_OnHealthChanged(object sender, System.EventArgs e)
+    {
+        SetHealth();
     }
 
     public void SetHealth()

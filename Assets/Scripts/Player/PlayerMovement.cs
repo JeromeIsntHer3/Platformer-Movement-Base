@@ -22,30 +22,28 @@ public class PlayerMovement : MonoBehaviour
     private float increasedGravScale;
     [SerializeField]
     private float apexBoost;
-
-    private bool _isFacingRight;
    
     //Component Variables
     private Rigidbody2D rb;
-    private CircleCollider2D circleCol;
-
-    private float jumpTimer;
-    private bool isJumping;
+    private CapsuleCollider2D capsuleCol;
 
     //Time Variables
     private float lastTimeGrounded;
     private float coyotoTimeBuffer;
-    
 
     //Input Variables
     private Vector2 _moveInput;
     private bool jumpButtonPressed;
     private bool jumpButtonHeld;
 
+    private float jumpTimer;
+    private bool isJumping;
+    private bool _isFacingRight;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        circleCol = GetComponent<CircleCollider2D>();
+        capsuleCol = GetComponent<CapsuleCollider2D>();
     }
 
     void InputHandler()
@@ -113,8 +111,8 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded()
     {
         float extraHeight = 0.1f;
-        RaycastHit2D raycastHit = Physics2D.BoxCast(circleCol.bounds.center,
-            circleCol.bounds.size - new Vector3(0.1f, 0, 0), 0, Vector2.down, extraHeight, groundLayerMask);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(capsuleCol.bounds.center,
+            capsuleCol.bounds.size - new Vector3(0.1f, 0, 0), 0, Vector2.down, extraHeight, groundLayerMask);
         return raycastHit.collider != null;
     }
 
@@ -124,13 +122,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if(_moveInput.x > 0)
             {
-                rb.AddForce(transform.right * apexBoost);
-                Debug.Log(rb.velocity.x);
+                rb.AddForce(transform.right * apexBoost * speed);
             }
             else if(_moveInput.x < 0)
             {
-                rb.AddForce(transform.right * -apexBoost);
-                Debug.Log("Apex Boost Left");
+                rb.AddForce(transform.right * -apexBoost * speed);
             }
         }
     }
