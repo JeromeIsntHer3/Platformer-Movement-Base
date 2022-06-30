@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Jump Attributes")]
     [SerializeField]
-    private float jumpTime;
+    [Range(0.1f,0.2f)]private float jumpPressHeldBuffer;
     [SerializeField]
     private float jumpForce; 
     [SerializeField]
@@ -34,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump Attributes")]
     //Jump Variables
     private float? lastGroundedTime;
-    private float? jumpButtonPressTime;
     [SerializeField]
     private float coyotoTimeBuffer;
     private float jumpTimer;
@@ -85,17 +84,13 @@ public class PlayerMovement : MonoBehaviour
         _isFacingRight = !_isFacingRight;
     }
 
-    void ForcedGravity()
+    void JumpGrav()
     {
-        if (!IsGrounded() && !isJumping)
+        if(rb.velocity.y < 0)
         {
             rb.gravityScale = increasedGravScale;
         }
-    }
-
-    void BaseGravity()
-    {
-        if(!IsGrounded() && !jumpButtonPressed && !jumpButtonHeld)
+        else
         {
             rb.gravityScale = baseGravScale;
         }
@@ -118,13 +113,13 @@ public class PlayerMovement : MonoBehaviour
         if (jumpButtonPressed && Time.time - lastGroundedTime <= coyotoTimeBuffer)
         {
             isJumping = true;
-            rb.gravityScale = decreasedGravScale;
-            jumpTimer = jumpTime;
+            jumpTimer = jumpPressHeldBuffer;
         }
         if (jumpButtonHeld && isJumping)
         {
             if (jumpTimer > 0)
             {
+                rb.gravityScale = decreasedGravScale;
                 rb.velocity = Vector2.up * jumpForce;
                 jumpTimer -= Time.deltaTime;
             }
@@ -159,8 +154,7 @@ public class PlayerMovement : MonoBehaviour
         InputHandler();
         Jump();
         ApexBoost();
-        ForcedGravity();
-        BaseGravity();        
+        JumpGrav();
     }
 
     void FixedUpdate()
@@ -171,4 +165,29 @@ public class PlayerMovement : MonoBehaviour
             CheckFaceDir(_moveInput.x < 0);
         }
     }
+
+
+    #region Archive Sections
+    //This Section of code was used in the past and was used due to misunderstanding
+    //and lack of testing as well as perspective, feel free to implment the code
+    //again if the situation requires them but they will not be of use and shall remain
+    //commented out until they are required or refactored to fit the project
+
+    //void ForcedGravity()
+    //{
+    //    if (!IsGrounded() && !isJumping)
+    //    {
+    //        rb.gravityScale = increasedGravScale;
+    //        Debug.Log("Jump Cut");
+    //    }
+    //}
+
+    //void BaseGravity()
+    //{
+    //    if (!IsGrounded() && !jumpButtonPressed && !jumpButtonHeld)
+    //    {
+    //        rb.gravityScale = baseGravScale;
+    //    }
+    //}
+    #endregion
 }

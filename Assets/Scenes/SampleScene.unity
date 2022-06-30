@@ -1503,11 +1503,11 @@ MonoBehaviour:
     m_Bits: 8
   speed: 20
   lerpAmount: 1
-  jumpTime: 0.12
+  jumpPressHeldBuffer: 0.135
   jumpForce: 30
-  decreasedGravScale: -5
+  decreasedGravScale: -10
   baseGravScale: 20
-  increasedGravScale: 20
+  increasedGravScale: 30
   apexBoost: 2
   jumpFallOff: 0
   coyotoTimeBuffer: 0.1
