@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float jumpTime;
     [SerializeField]
-    private float jumpForce;
+    private float jumpForce; 
     [SerializeField]
     private float normalGravScale;
     [SerializeField]
@@ -27,17 +27,20 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCol;
 
-    //Time Variables
+    //Jump Variables
     private float lastTimeGrounded;
+    private float currTimeInAir;
     private float coyotoTimeBuffer;
+    private float jumpTimer;
+    private bool isJumping;
+    private bool canJump;
 
     //Input Variables
     private Vector2 _moveInput;
     private bool jumpButtonPressed;
     private bool jumpButtonHeld;
 
-    private float jumpTimer;
-    private bool isJumping;
+    
     private bool _isFacingRight;
 
     void Awake()
@@ -79,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (jumpButtonPressed && isGrounded())
+        if (jumpButtonPressed && isGrounded() && canJump)
         {
             rb.gravityScale = normalGravScale;
             isJumping = true;
@@ -110,9 +113,10 @@ public class PlayerMovement : MonoBehaviour
 
     bool isGrounded()
     {
-        float extraHeight = 0.1f;
+        float extraHeight = 1.1f;
         RaycastHit2D raycastHit = Physics2D.BoxCast(capsuleCol.bounds.center,
-            capsuleCol.bounds.size - new Vector3(0.1f, 0, 0), 0, Vector2.down, extraHeight, groundLayerMask);
+            capsuleCol.bounds.size - new Vector3(0.1f, 1, 0), 0, Vector2.down, extraHeight, groundLayerMask);
+        canJump = true;
         return raycastHit.collider != null;
     }
 
@@ -131,12 +135,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void CoyotoTime()
+    {
+        if(lastTimeGrounded < coyotoTimeBuffer && !isGrounded())
+        {
+            Debug.Log("Coyototime");
+        }
+    }
+
     void Update()
     {
         InputHandler();
         Jump();
         ApexBoost();
         ForcedGravity();
+        CoyotoTime();
     }
 
     void FixedUpdate()

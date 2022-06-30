@@ -8,9 +8,9 @@ public class ProgressBar : MonoBehaviour
 
     void Start()
     {
-        SetProgress();
-        progressBar = GetComponent<Slider>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        progressBar = GetComponent<Slider>();
+        SetProgress();
         player.OnProgressChange += Player_OnProgressChange;
     }
 
@@ -18,7 +18,7 @@ public class ProgressBar : MonoBehaviour
     {
         SetProgress();
     }
-
+     
     void SetProgress()
     {
         if (progressBar != null && player != null) progressBar.value = player.currProgress;

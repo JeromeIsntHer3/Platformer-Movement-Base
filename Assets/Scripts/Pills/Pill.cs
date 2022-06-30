@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Pill : MonoBehaviour
 {
-    public PillData thisPill;
+    [SerializeField]
+    private float thisHealAmount;
+    [SerializeField]
+    private float thisProgressAmount;
+    [SerializeField]
+    private float thisProgressCap;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.tag == "Player")
-        {
-            Player player = other.GetComponent<Player>();
-            player.ProgressIncrease(thisPill.progressAmount, thisPill.cap);
-            Destroy(gameObject, 0.1f);
-        }
-    }
+    public float healAmount { get { return thisHealAmount; } }
+    public float progressAmount {get {return thisProgressAmount; } }
+    public float progressCap { get { return thisProgressCap; } }
 }

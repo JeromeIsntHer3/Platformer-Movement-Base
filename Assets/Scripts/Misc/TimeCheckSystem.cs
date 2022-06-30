@@ -2,27 +2,29 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public abstract class TimeCheckSystem : MonoBehaviour
+public class TimeCheckSystem
 {
-    [Header("Cycles")]
-    public float timeCycle;
-    public float internalTimeCycle;
-
-    [Header("Displays")]
-    public TextMeshProUGUI timeDisplay;
-    public TextMeshProUGUI internalTimeDisplay;
+    private float timeCycle;
+    private float internalTimeCycle;
+    
+    private TextMeshProUGUI timeDisplay;
+    private TextMeshProUGUI internalTimeDisplay;
 
     private float timeCountdown;
     private float internalTimeCountdown;
 
-    public Player player;
-
-    void Start()
+    public void SetCycleAndDisplay(float timeCycle, float internalTimeCycle, 
+        TextMeshProUGUI timeDisplay, TextMeshProUGUI internalTimeDisplay)
     {
-        if (timeCycle >= timeCountdown)
-        {
-            timeCountdown = timeCycle;
-        }
+        this.timeCycle = timeCycle;
+        this.internalTimeCycle = internalTimeCycle;
+        this.timeDisplay = timeDisplay;
+        this.internalTimeDisplay = internalTimeDisplay;
+    }
+
+    public void TCSStart()
+    {
+        timeCountdown = timeCycle;
     }
 
     void TimeCycle()
@@ -35,7 +37,7 @@ public abstract class TimeCheckSystem : MonoBehaviour
         {
             timeCountdown = 0;
         }
-    }
+    } 
 
     void InternalTimeCycle()
     {
@@ -43,7 +45,7 @@ public abstract class TimeCheckSystem : MonoBehaviour
         {
             internalTimeCountdown -= 1 * Time.deltaTime;
         }
-        if (internalTimeCountdown <= 0)
+        if (internalTimeCountdown <= 0 && timeCountdown != 0)
         {
             internalTimeCountdown = internalTimeCycle;
         }
@@ -59,14 +61,10 @@ public abstract class TimeCheckSystem : MonoBehaviour
         internalTimeDisplay.text = internalTimeString;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TCSUpdate()
     {
         TimeCycle();
         InternalTimeCycle();
         DisplayTime();
     }
-
-    //3 Segment 15
-    //
 }
