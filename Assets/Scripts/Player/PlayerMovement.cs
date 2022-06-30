@@ -17,23 +17,28 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float jumpForce; 
     [SerializeField]
-    private float normalGravScale;
+    private float decreasedGravScale;
+    [SerializeField]
+    private float baseGravScale;
     [SerializeField]
     private float increasedGravScale;
     [SerializeField]
     private float apexBoost;
+    [SerializeField]
+    private float jumpFallOff;
    
     //Component Variables
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCol;
 
+    [Header("Jump Attributes")]
     //Jump Variables
-    private float lastTimeGrounded;
-    private float currTimeInAir;
+    private float? lastGroundedTime;
+    private float? jumpButtonPressTime;
+    [SerializeField]
     private float coyotoTimeBuffer;
     private float jumpTimer;
     private bool isJumping;
-    private bool canJump;
 
     //Input Variables
     private Vector2 _moveInput;
@@ -80,12 +85,40 @@ public class PlayerMovement : MonoBehaviour
         _isFacingRight = !_isFacingRight;
     }
 
+    void ForcedGravity()
+    {
+        if (!IsGrounded() && !isJumping)
+        {
+            rb.gravityScale = increasedGravScale;
+        }
+    }
+
+    void BaseGravity()
+    {
+        if(!IsGrounded() && !jumpButtonPressed && !jumpButtonHeld)
+        {
+            rb.gravityScale = baseGravScale;
+        }
+    }
+
+    bool IsGrounded()
+    {
+        float extraHeight = 1.1f;
+        RaycastHit2D raycastHit = Physics2D.BoxCast(capsuleCol.bounds.center,capsuleCol.bounds.size 
+            - new Vector3(0.1f, 1, 0), 0, Vector2.down, extraHeight, groundLayerMask);
+        return raycastHit.collider != null;
+    }
+
     void Jump()
     {
-        if (jumpButtonPressed && isGrounded() && canJump)
+        if (IsGrounded())
         {
-            rb.gravityScale = normalGravScale;
+            lastGroundedTime = Time.time;
+        }
+        if (jumpButtonPressed && Time.time - lastGroundedTime <= coyotoTimeBuffer)
+        {
             isJumping = true;
+            rb.gravityScale = decreasedGravScale;
             jumpTimer = jumpTime;
         }
         if (jumpButtonHeld && isJumping)
@@ -100,29 +133,15 @@ public class PlayerMovement : MonoBehaviour
                 isJumping = false;
             }
         }
-        if (!jumpButtonHeld) isJumping = false;
-    }
-
-    void ForcedGravity()
-    {
-        if (!isGrounded() && !isJumping)
+        if (!jumpButtonHeld)
         {
-            rb.gravityScale = increasedGravScale;
+            isJumping = false;
         }
-    }
-
-    bool isGrounded()
-    {
-        float extraHeight = 1.1f;
-        RaycastHit2D raycastHit = Physics2D.BoxCast(capsuleCol.bounds.center,
-            capsuleCol.bounds.size - new Vector3(0.1f, 1, 0), 0, Vector2.down, extraHeight, groundLayerMask);
-        canJump = true;
-        return raycastHit.collider != null;
     }
 
     void ApexBoost()
     {
-        if (!isGrounded() && !isJumping)
+        if (!IsGrounded() && !isJumping && rb.velocity.y <= 0 && rb.velocity.y > -5)
         {
             if(_moveInput.x > 0)
             {
@@ -135,21 +154,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void CoyotoTime()
-    {
-        if(lastTimeGrounded < coyotoTimeBuffer && !isGrounded())
-        {
-            Debug.Log("Coyototime");
-        }
-    }
-
     void Update()
     {
         InputHandler();
         Jump();
         ApexBoost();
         ForcedGravity();
-        CoyotoTime();
+        BaseGravity();        
     }
 
     void FixedUpdate()

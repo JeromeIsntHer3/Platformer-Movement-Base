@@ -783,7 +783,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 13.661696
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -827,8 +827,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 879613690}
-  offset: {x: 0, y: 2, z: 0}
-  blend: 9.5
+  offset: {x: 0, y: 1, z: 0}
+  blend: 1
 --- !u!1 &528871733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,10 +1504,13 @@ MonoBehaviour:
   speed: 20
   lerpAmount: 1
   jumpTime: 0.12
-  jumpForce: 35
-  normalGravScale: -5
-  increasedGravScale: 40
-  apexBoost: 5
+  jumpForce: 30
+  decreasedGravScale: -5
+  baseGravScale: 20
+  increasedGravScale: 20
+  apexBoost: 2
+  jumpFallOff: 0
+  coyotoTimeBuffer: 0.1
 --- !u!114 &879613696
 MonoBehaviour:
   m_ObjectHideFlags: 0
