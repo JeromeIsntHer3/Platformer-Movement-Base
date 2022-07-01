@@ -13,11 +13,13 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
     [SerializeField]
     private float _currProgress;
 
+    [HideInInspector]
     public float currHealth { get { return _currHealth; } }
+    [HideInInspector]
     public float currProgress { get { return _currProgress; } }
 
-    public float dot;
-    public float hot;
+    private float dot;
+    private float hot;
 
     [Header("Cycles")]
     [SerializeField]
@@ -145,6 +147,16 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
                 ProgressIncrease(thisPill.progressAmount, thisPill.progressCap);
                 OnPickedUp?.Invoke(this, EventArgs.Empty);
                 Destroy(thisPill.gameObject, 0.1f);
+            }
+        }
+
+        if(other.tag == "Buff")
+        {
+            BaseBuff thisBuff = other.GetComponent<BaseBuff>();
+            if(thisBuff != null)
+            {
+                thisBuff.Effect(gameObject);
+                Destroy(thisBuff, 0.1f);
             }
         }
     }

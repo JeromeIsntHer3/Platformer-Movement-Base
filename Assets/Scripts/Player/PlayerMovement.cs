@@ -1,9 +1,14 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Ground Check")]
-    public LayerMask groundLayerMask;
+    //Component Variables
+    private Rigidbody2D rb;
+    private CapsuleCollider2D capsuleCol;
+    private PlayerInput playerInput;
 
     [Header("Movement Attributes")]
     [SerializeField]
@@ -13,11 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Jump Attributes")]
     [SerializeField]
-    [Range(0.1f,0.2f)]private float jumpPressHeldBuffer;
-    [SerializeField]
-    private float jumpForce; 
-    [SerializeField]
-    private float decreasedGravScale;
+    private float jumpForce;
     [SerializeField]
     private float baseGravScale;
     [SerializeField]
@@ -25,47 +26,35 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float apexBoost;
     [SerializeField]
-    private float jumpFallOff;
-   
-    //Component Variables
-    private Rigidbody2D rb;
-    private CapsuleCollider2D capsuleCol;
-
-    [Header("Jump Attributes")]
-    //Jump Variables
-    private float? lastGroundedTime;
+    private float jumpFallOffAtApex;
     [SerializeField]
     private float coyotoTimeBuffer;
-    private float jumpTimer;
-    private bool isJumping;
+    [SerializeField]
+    private float jumpsAllowed;
+    private float? lastGroundedTime;
 
-    //Input Variables
-    private Vector2 _moveInput;
-    private bool jumpButtonPressed;
-    private bool jumpButtonHeld;
+    [Header("Ground Check")]
+    public LayerMask groundLayerMask;
 
-    
+    [Header("Buff Attributes")]
+    [SerializeField]
+    private float buffTimer;
+
     private bool _isFacingRight;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCol = GetComponent<CapsuleCollider2D>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
-    void InputHandler()
+    void Move()
     {
-        _moveInput.x = Input.GetAxis("Horizontal");
-        jumpButtonPressed = Input.GetKeyDown(KeyCode.Space);
-        jumpButtonHeld = Input.GetKey(KeyCode.Space);
-    }
-
-    void Move(float lerpAmount)
-    {
-        float topSpeedX = speed * _moveInput.x;
-        //if (lerpAmount < 1) lerpAmount *= 0.2f;
+        float topSpeedX = speed * playerInput.movementInput.x;
         topSpeedX = Mathf.Lerp(rb.velocity.x, topSpeedX, lerpAmount);
         rb.velocity = new Vector2(topSpeedX, rb.velocity.y);
+        rb.AddForce(transform.right * topSpeedX);
     }
 
     void CheckFaceDir(bool isMovingRight)
@@ -84,9 +73,9 @@ public class PlayerMovement : MonoBehaviour
         _isFacingRight = !_isFacingRight;
     }
 
-    void JumpGrav()
+    void Gravity()
     {
-        if(rb.velocity.y < 0)
+        if (rb.velocity.y < 0)
         {
             rb.gravityScale = increasedGravScale;
         }
@@ -98,8 +87,8 @@ public class PlayerMovement : MonoBehaviour
 
     bool IsGrounded()
     {
-        float extraHeight = 1.1f;
-        RaycastHit2D raycastHit = Physics2D.BoxCast(capsuleCol.bounds.center,capsuleCol.bounds.size 
+        float extraHeight = 0.7f;
+        RaycastHit2D raycastHit = Physics2D.BoxCast(capsuleCol.bounds.center, capsuleCol.bounds.size
             - new Vector3(0.1f, 1, 0), 0, Vector2.down, extraHeight, groundLayerMask);
         return raycastHit.collider != null;
     }
@@ -110,59 +99,49 @@ public class PlayerMovement : MonoBehaviour
         {
             lastGroundedTime = Time.time;
         }
-        if (jumpButtonPressed && Time.time - lastGroundedTime <= coyotoTimeBuffer)
-        {
-            isJumping = true;
-            jumpTimer = jumpPressHeldBuffer;
+        if (playerInput.jumpPressed && CoyoteJump())
+        {   
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
-        if (jumpButtonHeld && isJumping)
+        if (playerInput.jumpReleased && rb.velocity.y > 0)
         {
-            if (jumpTimer > 0)
-            {
-                rb.gravityScale = decreasedGravScale;
-                rb.velocity = Vector2.up * jumpForce;
-                jumpTimer -= Time.deltaTime;
-            }
-            else
-            {
-                isJumping = false;
-            }
-        }
-        if (!jumpButtonHeld)
-        {
-            isJumping = false;
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / jumpFallOffAtApex);
         }
     }
 
     void ApexBoost()
     {
-        if (!IsGrounded() && !isJumping && rb.velocity.y <= 0 && rb.velocity.y > -5)
+        if (-10 < rb.velocity.y && rb.velocity.y <= -0.01)
         {
-            if(_moveInput.x > 0)
+            if (playerInput.movementInput.x > 0)
             {
-                rb.AddForce(transform.right * apexBoost * speed);
+                rb.AddForce(transform.right * apexBoost);
             }
-            else if(_moveInput.x < 0)
+            else if (playerInput.movementInput.x < 0)
             {
-                rb.AddForce(transform.right * -apexBoost * speed);
+                rb.AddForce(transform.right * -apexBoost);
             }
         }
     }
 
+    bool CoyoteJump()
+    {
+        return Time.time - lastGroundedTime <= coyotoTimeBuffer;
+    }
+
     void Update()
     {
-        InputHandler();
-        Jump();
         ApexBoost();
-        JumpGrav();
+        Jump();
+        Gravity();
     }
 
     void FixedUpdate()
     {
-        Move(lerpAmount);
-        if (_moveInput.x != 0)
+        Move();
+        if (playerInput.movementInput.x != 0)
         {
-            CheckFaceDir(_moveInput.x < 0);
+            CheckFaceDir(playerInput.movementInput.x < 0);
         }
     }
 
@@ -172,6 +151,41 @@ public class PlayerMovement : MonoBehaviour
     //and lack of testing as well as perspective, feel free to implment the code
     //again if the situation requires them but they will not be of use and shall remain
     //commented out until they are required or refactored to fit the project
+    //void Jump()
+    //{
+    //    if (IsGrounded())
+    //    {
+    //        lastGroundedTime = Time.time;
+    //        numberOfJumps = jumpsAllowed;
+    //    }
+    //    if (playerInput.jumpPressed && CoyoteTime() && numberOfJumps > 0)
+    //    {
+    //        isJumping = true;
+    //        jumpTimer = jumpPressHeldBuffer;
+    //        rb.velocity = Vector2.up * jumpForce;
+    //        numberOfJumps -= 1;
+    //    }
+    //    if (playerInput.jumpHeld && isJumping)
+    //    {
+    //        if (jumpTimer > 0)
+    //        {
+    //            rb.gravityScale = decreasedGravScale;
+    //            rb.velocity = Vector2.up * jumpForce;
+    //            jumpTimer -= Time.deltaTime;
+    //        }
+    //        else
+    //        {
+    //            isJumping = false;
+    //        }
+    //    }
+    //    if (!playerInput.jumpHeld)
+    //    {
+    //        if (numberOfJumps == 0)
+    //        {
+    //            isJumping = false;
+    //        }
+    //    }
+    //}
 
     //void ForcedGravity()
     //{
