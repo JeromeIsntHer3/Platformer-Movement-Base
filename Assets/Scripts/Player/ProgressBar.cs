@@ -21,6 +21,6 @@ public class ProgressBar : MonoBehaviour
      
     void SetProgress()
     {
-        if (progressBar != null && player != null) progressBar.value = player.currProgress;
+        if (progressBar != null && player != null) progressBar.value = player.CurrProgress;
     }
 }

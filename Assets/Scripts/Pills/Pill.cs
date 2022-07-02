@@ -38,7 +38,7 @@ public class Pill : MonoBehaviour
         }
     }
 
-    public float healAmount { get { return thisHealAmount; } }
-    public float progressAmount {get {return thisProgressAmount; } }
-    public float progressCap { get { return thisProgressCap; } }
+    public float HealAmount { get { return thisHealAmount; } }
+    public float ProgressAmount {get {return thisProgressAmount; } }
+    public float ProgressCap { get { return thisProgressCap; } }
 }

@@ -21,6 +21,6 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth()
     {
-        if(healthBar != null && player != null) healthBar.value = player.currHealth;
+        if(healthBar != null && player != null) healthBar.value = player.CurrHealth;
     }
 }

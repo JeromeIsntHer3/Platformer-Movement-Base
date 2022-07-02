@@ -3,16 +3,19 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(BuffHandler))]
 public class PlayerMovement : MonoBehaviour
 {
     //Component Variables
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCol;
     private PlayerInput playerInput;
+    private BuffHandler buffHandler;
 
     [Header("Movement Attributes")]
     [SerializeField]
     private float speed;
+    public float Speed { get { return speed; } set { speed = value; } }
     [SerializeField]
     private float lerpAmount = 1f;
 
@@ -29,8 +32,9 @@ public class PlayerMovement : MonoBehaviour
     private float jumpFallOffAtApex;
     [SerializeField]
     private float coyotoTimeBuffer;
-    [SerializeField]
-    private float jumpsAllowed;
+    private int noOfJumpsAllowed;
+    public int NoOfJumpsAllowed { get { return noOfJumpsAllowed; } set { noOfJumpsAllowed = value; } }
+    private int noOfJumps;
     private float? lastGroundedTime;
 
     [Header("Ground Check")]
@@ -47,6 +51,14 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         capsuleCol = GetComponent<CapsuleCollider2D>();
         playerInput = GetComponent<PlayerInput>();
+        buffHandler = GetComponent<BuffHandler>();
+        buffHandler.BuffsOver += ToDefault;
+    }
+
+    private void ToDefault(object sender, System.EventArgs e)
+    {
+        speed = 20;
+        noOfJumpsAllowed = 1;
     }
 
     void Move()
@@ -98,14 +110,26 @@ public class PlayerMovement : MonoBehaviour
         if (IsGrounded())
         {
             lastGroundedTime = Time.time;
+            noOfJumps = noOfJumpsAllowed;
         }
-        if (playerInput.jumpPressed && CoyoteJump())
-        {   
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        }
-        if (playerInput.jumpReleased && rb.velocity.y > 0)
+        if (playerInput.jumpPressed)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / jumpFallOffAtApex);
+            if (CoyoteJumpPossible())
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
+            else if (noOfJumps > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
+        }
+        if (playerInput.jumpReleased)
+        {
+            noOfJumps -= 1;
+            if (rb.velocity.y > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / jumpFallOffAtApex);
+            }
         }
     }
 
@@ -124,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    bool CoyoteJump()
+    bool CoyoteJumpPossible()
     {
         return Time.time - lastGroundedTime <= coyotoTimeBuffer;
     }
@@ -145,7 +169,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     #region Archive Sections
     //This Section of code was used in the past and was used due to misunderstanding
     //and lack of testing as well as perspective, feel free to implment the code
@@ -156,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
     //    if (IsGrounded())
     //    {
     //        lastGroundedTime = Time.time;
-    //        numberOfJumps = jumpsAllowed;
+    //        numberOfJumps = NoOfJumpsAllowed;
     //    }
     //    if (playerInput.jumpPressed && CoyoteTime() && numberOfJumps > 0)
     //    {

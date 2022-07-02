@@ -1443,6 +1443,7 @@ GameObject:
   - component: {fileID: 879613695}
   - component: {fileID: 879613696}
   - component: {fileID: 879613698}
+  - component: {fileID: 879613699}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1507,7 +1508,6 @@ MonoBehaviour:
   apexBoost: 10
   jumpFallOffAtApex: 2
   coyotoTimeBuffer: 0.1
-  jumpsAllowed: 2
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -1559,6 +1559,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpKey: 32
+--- !u!114 &879613699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879613689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a548612204677458c1d1a8cbd8d812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffList: []
 --- !u!1 &1018917326
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,15 +2677,15 @@ GameObject:
   m_Component:
   - component: {fileID: 2127511373}
   - component: {fileID: 2127511372}
-  - component: {fileID: 2127511374}
   - component: {fileID: 2127511375}
+  - component: {fileID: 2127511376}
   m_Layer: 0
   m_Name: Double Jump Buff
   m_TagString: Buff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &2127511372
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2740,21 +2753,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2127511374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127511371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b9562aed902a724b8ff7d631754f4f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buffName: Double Jump
-  activeTime: 5
-  jumps: 2
 --- !u!58 &2127511375
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2771,3 +2769,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2127511376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127511371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a5445e339cea6418d15b5632167d3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffData: {fileID: 11400000, guid: 01a7b6eb213c14e4d8a908469ab5641e, type: 2}

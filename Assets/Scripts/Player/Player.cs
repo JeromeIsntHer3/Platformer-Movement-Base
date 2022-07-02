@@ -14,9 +14,9 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
     private float _currProgress;
 
     [HideInInspector]
-    public float currHealth { get { return _currHealth; } }
+    public float CurrHealth { get { return _currHealth; } }
     [HideInInspector]
-    public float currProgress { get { return _currProgress; } }
+    public float CurrProgress { get { return _currProgress; } }
 
     private float dot;
     private float hot;
@@ -35,13 +35,11 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
 
     private float prevHealth;
     private float prevProgress;
-
-    public TimeCheckSystem tcs;
     
     //Events for Changes In Health & Progress
     //This Events run and are used in HealthChanged
     //and ProgressChanged
-    public event EventHandler OnHealthChange, OnProgressChange, OnPickedUp;
+    public event EventHandler OnHealthChange, OnProgressChange;
 
     #region HealthChangedEventTrigger
 
@@ -73,18 +71,11 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
 
     void Awake()
     {
-        tcs = new TimeCheckSystem();
-        tcs.SetCycleAndDisplay(timeCycle, internalTimeCycle, timeDisplay, internalTimeDisplay);
-        OnPickedUp += OnPickedUpEvent;
-    }
 
-    private void OnPickedUpEvent(object sender, EventArgs e)
-    {
     }
 
     void Start()
     {
-        tcs.TCSStart();
     }
 
     #region Interface Functions
@@ -133,7 +124,6 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
     {
         HealthChanged();
         ProgressChanged();
-        tcs.TCSUpdate();
     }
 
     //To Interact With Pills
@@ -144,19 +134,9 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
             Pill thisPill = other.GetComponent<Pill>();
             if (thisPill != null)
             {
-                ProgressIncrease(thisPill.progressAmount, thisPill.progressCap);
-                OnPickedUp?.Invoke(this, EventArgs.Empty);
+                ProgressIncrease(thisPill.ProgressAmount, thisPill.ProgressCap);
+                Heal(thisPill.HealAmount);
                 Destroy(thisPill.gameObject, 0.1f);
-            }
-        }
-
-        if(other.tag == "Buff")
-        {
-            BaseBuff thisBuff = other.GetComponent<BaseBuff>();
-            if(thisBuff != null)
-            {
-                thisBuff.Effect(gameObject);
-                Destroy(thisBuff, 0.1f);
             }
         }
     }
