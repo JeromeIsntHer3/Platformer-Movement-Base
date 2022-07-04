@@ -3,14 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerInput))]
-[RequireComponent(typeof(BuffHandler))]
 public class PlayerMovement : MonoBehaviour
 {
     //Component Variables
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCol;
     private PlayerInput playerInput;
-    private BuffHandler buffHandler;
 
     [Header("Movement Attributes")]
     [SerializeField]
@@ -40,10 +38,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public LayerMask groundLayerMask;
 
-    [Header("Buff Attributes")]
-    [SerializeField]
-    private float buffTimer;
-
     private bool _isFacingRight;
 
     void Awake()
@@ -51,14 +45,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         capsuleCol = GetComponent<CapsuleCollider2D>();
         playerInput = GetComponent<PlayerInput>();
-        buffHandler = GetComponent<BuffHandler>();
-        buffHandler.BuffsOver += ToDefault;
-    }
-
-    private void ToDefault(object sender, System.EventArgs e)
-    {
-        speed = 20;
-        noOfJumpsAllowed = 1;
     }
 
     void Move()
@@ -158,6 +144,7 @@ public class PlayerMovement : MonoBehaviour
         ApexBoost();
         Jump();
         Gravity();
+        Debug.Log(NoOfJumpsAllowed);
     }
 
     void FixedUpdate()

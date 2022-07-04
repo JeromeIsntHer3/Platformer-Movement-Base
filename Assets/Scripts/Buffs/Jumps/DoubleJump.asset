@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8e71da7c844fb340930b69bf5d29bcf, type: 3}
+  m_Script: {fileID: 11500000, guid: afb9d165a86be044a94e9b6ce605f144, type: 3}
   m_Name: DoubleJump
   m_EditorClassIdentifier: 
-  activeTime: 5
-  speed: 0
+  buffDuration: 5
+  cullDuration: -0.00079763075
   jumps: 2
-  speedChange: 0
-  jumpChange: 1

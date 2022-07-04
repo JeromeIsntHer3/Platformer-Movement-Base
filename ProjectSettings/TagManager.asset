@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Pill
   - Buff
+  - BuffHolder
   layers:
   - Default
   - TransparentFX
