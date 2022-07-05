@@ -21,18 +21,6 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
     private float dot;
     private float hot;
 
-    [Header("Cycles")]
-    [SerializeField]
-    private float timeCycle;
-    [SerializeField]
-    private float internalTimeCycle;
-
-    [Header("Displays")]
-    [SerializeField]
-    private TextMeshProUGUI timeDisplay;
-    [SerializeField]
-    private TextMeshProUGUI internalTimeDisplay;
-
     private float prevHealth;
     private float prevProgress;
     
@@ -124,20 +112,5 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
     {
         HealthChanged();
         ProgressChanged();
-    }
-
-    //To Interact With Pills
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.tag == "Pill")
-        {
-            Pill thisPill = other.GetComponent<Pill>();
-            if (thisPill != null)
-            {
-                ProgressIncrease(thisPill.ProgressAmount, thisPill.ProgressCap);
-                Heal(thisPill.HealAmount);
-                Destroy(thisPill.gameObject, 0.1f);
-            }
-        }
     }
 }

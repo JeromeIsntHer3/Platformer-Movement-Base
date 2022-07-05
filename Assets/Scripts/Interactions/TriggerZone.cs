@@ -8,7 +8,7 @@ public class TriggerZone : MonoBehaviour
 
     public enum Type
     {
-        heal,damage
+        heal,damage,death
     }
 
     //Set the type of triggerzone this is
@@ -20,5 +20,6 @@ public class TriggerZone : MonoBehaviour
 
         if (typeOfBox == Type.damage) otherObj.Damage(amount);
         if (typeOfBox == Type.heal) otherObj.Heal(amount);
+        if (typeOfBox == Type.death) Destroy(other.gameObject);
     }
 }

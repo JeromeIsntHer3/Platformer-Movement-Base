@@ -5,8 +5,6 @@ using UnityEngine;
 public class BuffHandler : MonoBehaviour
 {
     public Dictionary<string, Buff> activeBfs = new Dictionary<string,Buff>();
-    public List<string> buffNames;
-    public List<Buff> buffs;
 
     void Update()
     {
@@ -23,16 +21,6 @@ public class BuffHandler : MonoBehaviour
                 activeBfs.Remove(buff.Key);
             }
         }
-        //foreach (string name in activeBfs.Keys)
-        //{
-        //    if (buffNames.Contains(name)) return;
-        //    buffNames.Add(name.ToString());
-        //}
-        //foreach (Buff bff in activeBfs.Values)
-        //{
-        //    if (buffs.Contains(bff)) return;
-        //    buffs.Add(bff);
-        //}
     }
 
     private void OnTriggerEnter2D(Collider2D other)

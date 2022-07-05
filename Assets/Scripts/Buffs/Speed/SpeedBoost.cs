@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Additional Jump",menuName = "Buff/Jumps")]
-public class AdditionalJumps : Buff
+[CreateAssetMenu(fileName = "Speed Boost", menuName = "Buff/Speed Boost")]
+public class SpeedBoost : Buff
 {
-    public int jumps;
+    public float newSpeed;
 
     public override void Effect(GameObject parent)
     {
         PlayerMovement pm = parent.GetComponent<PlayerMovement>();
-        pm.NoOfJumpsAllowed = jumps;
+        pm.Speed = newSpeed;
     }
-
     public override void Over(GameObject parent)
     {
         PlayerMovement pm = parent.GetComponent<PlayerMovement>();
-        pm.NoOfJumpsAllowed = 1;
+        pm.Speed = 20;
     }
 }

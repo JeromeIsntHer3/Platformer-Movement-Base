@@ -8,7 +8,7 @@ public class HealthBar : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = FindObjectOfType<Player>();
         healthBar = GetComponent<Slider>();
         SetHealth();
         player.OnHealthChange += Player_OnHealthChanged;

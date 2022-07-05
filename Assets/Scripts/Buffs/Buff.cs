@@ -5,8 +5,8 @@ using UnityEngine;
 public class Buff : ScriptableObject
 {
     public float buffDuration;
+    [HideInInspector]
     public float cullDuration;
-    protected bool affected;
 
     public virtual void Effect(GameObject parent) { }
 

@@ -9,6 +9,7 @@ public class Pill : MonoBehaviour
     [SerializeField]
     private float thisProgressCap;
 
+    private Player player;
     private SpriteRenderer sr;
 
     private enum ColorType
@@ -38,7 +39,14 @@ public class Pill : MonoBehaviour
         }
     }
 
-    public float HealAmount { get { return thisHealAmount; } }
-    public float ProgressAmount {get {return thisProgressAmount; } }
-    public float ProgressCap { get { return thisProgressCap; } }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            player = other.GetComponent<Player>();
+            player.ProgressIncrease(thisProgressAmount, thisProgressCap);
+            player.Heal(thisHealAmount);
+            Destroy(gameObject, 0.1f);
+        }
+    }
 }

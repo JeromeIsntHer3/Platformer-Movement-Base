@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class TimeCheckSystem
+public class TimeCheckSystem : MonoBehaviour
 {
     private float timeCycle;
     private float internalTimeCycle;
@@ -13,16 +13,7 @@ public class TimeCheckSystem
     private float timeCountdown;
     private float internalTimeCountdown;
 
-    public void SetCycleAndDisplay(float timeCycle, float internalTimeCycle, 
-        TextMeshProUGUI timeDisplay, TextMeshProUGUI internalTimeDisplay)
-    {
-        this.timeCycle = timeCycle;
-        this.internalTimeCycle = internalTimeCycle;
-        this.timeDisplay = timeDisplay;
-        this.internalTimeDisplay = internalTimeDisplay;
-    }
-
-    public void TCSStart()
+    public void Start()
     {
         timeCountdown = timeCycle;
     }
@@ -61,7 +52,7 @@ public class TimeCheckSystem
         internalTimeDisplay.text = internalTimeString;
     }
 
-    public void TCSUpdate()
+    public void Update()
     {
         TimeCycle();
         InternalTimeCycle();

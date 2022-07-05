@@ -144,7 +144,6 @@ public class PlayerMovement : MonoBehaviour
         ApexBoost();
         Jump();
         Gravity();
-        Debug.Log(NoOfJumpsAllowed);
     }
 
     void FixedUpdate()
