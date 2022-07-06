@@ -6,22 +6,27 @@ public class InfectedPlatform : MonoBehaviour
 {
     [SerializeField]
     [Range(0,100)]private float standOnPercentage;
+    private float maxPercentage = 100;
     [SerializeField]
     private float increaseRate;
     [SerializeField]
     private float decreaseRate;
     [SerializeField]
-    private SpriteRenderer sprite;
+    private Color finalColor;
+    private SpriteRenderer sr;
     private bool onPlatform;
+
+    [SerializeField]
+    private string tagCompare;
 
     private void Awake()
     {
-        sprite = GetComponentInParent<SpriteRenderer>();
+        sr = GetComponentInParent<SpriteRenderer>();   
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Player")
+        if(other.tag == tagCompare)
         {
             onPlatform = true;
         }
@@ -29,13 +34,13 @@ public class InfectedPlatform : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.tag == "Player")
+        if(other.tag == tagCompare)
         {
             onPlatform = false;
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(standOnPercentage > 0 && !onPlatform)
         {
@@ -45,6 +50,7 @@ public class InfectedPlatform : MonoBehaviour
         {
             standOnPercentage += increaseRate * Time.fixedDeltaTime;
         }
-        sprite.color = new Color(1,1,standOnPercentage/100);
+        Color color = Color.Lerp(Color.white, finalColor, standOnPercentage / maxPercentage);
+        sr.color = color;
     }
 }

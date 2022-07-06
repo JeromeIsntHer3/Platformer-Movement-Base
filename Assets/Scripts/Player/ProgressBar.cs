@@ -9,7 +9,6 @@ public class ProgressBar : MonoBehaviour
     void Awake()
     {
         player = FindObjectOfType<Player>();
-        Debug.Log(player.name);
         progressBar = GetComponent<Slider>();
         SetProgress();
         player.OnProgressChange += Player_OnProgressChange;

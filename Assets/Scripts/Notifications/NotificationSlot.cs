@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class NotificationSlot : MonoBehaviour
 {
     NotificationData thisNotification;
     PhoneDisplay thisDisplay;
     public TextMeshProUGUI thisHeader;
+    public Image thisImage;
 
-    public Color thisColor;
-
-    public void SetNotificationSlot(NotificationData newNotification,string header, PhoneDisplay display)
+    public void SetNotificationSlot(NotificationData newNotification, PhoneDisplay display)
     {
         thisNotification = newNotification;
         thisDisplay = display;
-        thisHeader.text = header;
         if (thisNotification)
         {
-            thisColor = thisNotification.color;
+            thisImage.color = thisNotification.color;
+            thisHeader.text = thisNotification.header;
         }
     }
 

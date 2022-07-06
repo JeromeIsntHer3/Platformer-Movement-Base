@@ -6,7 +6,7 @@ using TMPro;
 public class PhoneDisplay : MonoBehaviour
 {
     [SerializeField]
-    private List<NotificationData> notifications;
+    private NotificationStorage notificationStorage;
 
     [SerializeField]
     private GameObject display;
@@ -18,7 +18,7 @@ public class PhoneDisplay : MonoBehaviour
     private void OnEnable()
     {
         ClearSlots();
-        SetUpNotifSlots();
+        SetUpSlots();
     }
 
     //public void ClickOnDisplay(string desc)
@@ -26,28 +26,18 @@ public class PhoneDisplay : MonoBehaviour
     //    this.descriptionDisplay.text = desc;
     //}
 
-    void SetUpNotifSlots()
+    void SetUpSlots()
     {
         if (display)
         {
-            //for(int i = 0; i < notifications.Count; i++)
-            //{
-            //    GameObject temp = Instantiate(notificationPrefab, display.transform.position, Quaternion.identity, display.transform);
-            //    temp.transform.SetParent(display.transform);
-            //    NotificationSlot newSlot = temp.GetComponent<NotificationSlot>();
-            //    if (newSlot)
-            //    {
-            //        newSlot.SetNotificationSlot(notifications[i],this);
-            //    }
-            //}
-            foreach(NotificationData nd in notifications)
+            foreach(NotificationData notification in notificationStorage.notificationList)
             {
                 GameObject temp = Instantiate(notificationPrefab, display.transform.position, Quaternion.identity, display.transform);
                 temp.transform.SetParent(display.transform);
                 NotificationSlot newSlot = temp.GetComponent<NotificationSlot>();
                 if (newSlot)
                 {
-                    newSlot.SetNotificationSlot(nd, nd.header,this);
+                    newSlot.SetNotificationSlot(notification, this);
                 }
             }
         }

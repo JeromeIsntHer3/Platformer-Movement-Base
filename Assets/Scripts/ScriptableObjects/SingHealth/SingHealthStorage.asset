@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab37c047fab0656468dad517e00dcc78, type: 3}
+  m_Name: SingHealthStorage
+  m_EditorClassIdentifier: 
+  notificationList:
+  - {fileID: 11400000, guid: d5c6c12d4c7d67a41af119d75a5ad4e4, type: 2}
+  - {fileID: 11400000, guid: a2bd30ce046eedf4c8dd96797e74bcc7, type: 2}
+  - {fileID: 11400000, guid: 968eacbfc181a264e9bfee1dcb81a70a, type: 2}

@@ -10,8 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26c2e7812936f244a8d3ee85c0de1c52, type: 3}
-  m_Name: Bruh
+  m_Name: KnowIt_2
   m_EditorClassIdentifier: 
-  header: WOW IT WORKS
-  sprite: {fileID: 0}
-  color: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
+  header: KnowIt_1
+  color: {r: 1, g: 0.24056602, b: 0.24056602, a: 1}

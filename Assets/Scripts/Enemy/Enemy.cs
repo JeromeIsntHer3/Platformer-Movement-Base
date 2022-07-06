@@ -1,0 +1,56 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy : MonoBehaviour
+{
+    [SerializeField]
+    private float range;
+    [SerializeField]
+    private Transform player;
+    [SerializeField]
+    private float speed;
+
+    private float distToPlayer;
+    private Rigidbody2D rb;
+    private Vector2 moveDir;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        if (player == null) return;
+
+        //Lazy Method
+        //if(DistToPlayer() < range)
+        //{ 
+        //    rb.transform.position = Vector2.Lerp(transform.position, player.position, speed);
+        //}
+        //else
+        //{
+        //    rb.velocity = new Vector2(0, 0); 
+        //}
+        //Diff Method
+        if (DistToPlayer() < range)
+        {
+            Vector3 direction = (player.position - transform.position).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            rb.rotation = angle;
+            moveDir = direction;
+            rb.velocity = new Vector2(moveDir.x, moveDir.y) * speed;
+        }
+        else
+        {
+            rb.velocity = new Vector2(0, 0);
+        }
+    }
+
+    float DistToPlayer()
+    {
+        distToPlayer = Vector3.Distance(transform.position, player.position);
+        return distToPlayer;
+    }
+}
