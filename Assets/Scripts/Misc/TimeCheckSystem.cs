@@ -15,6 +15,7 @@ public class TimeCheckSystem : MonoBehaviour
     private TextMeshProUGUI internalTimeDisplay;
 
     private float timeCountdown;
+    public float TimeCountDown { get { return timeCountdown; } }
     private float internalTimeCountdown;
 
     public void Start()

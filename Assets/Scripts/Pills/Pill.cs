@@ -44,11 +44,24 @@ public class Pill : MonoBehaviour
         if (other.tag == "Player")
         {
             player = other.GetComponent<Player>();
-            player.ProgressIncrease(thisProgressAmount, thisProgressCap);
-            player.Heal(thisHealAmount);
             player.EnableBarrier();
             player.DoDOT = false;
-            Destroy(gameObject, 0.1f);
+            float currTime = player.tcs.TimeCountDown;
+            if (5 > currTime && currTime > 0)
+            {
+                player.ProgressIncrease(thisProgressAmount, thisProgressCap);
+                player.Heal(thisHealAmount);
+            }
+            else if (15 > currTime && currTime > 5)
+            {
+                player.ProgressIncrease(thisProgressAmount/2, thisProgressCap);
+                player.Heal(thisHealAmount/2);
+            }
+            else
+            {
+                player.Damage(10);
+            }
+            Destroy(gameObject);
         }
     }
 }
