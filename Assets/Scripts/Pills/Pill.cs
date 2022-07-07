@@ -46,7 +46,7 @@ public class Pill : MonoBehaviour
             player = other.GetComponent<Player>();
             player.EnableBarrier();
             player.DoDOT = false;
-            float currTime = player.tcs.TimeCountDown;
+            float currTime = player.timeHandler.TimeCountDown;
             if (5 > currTime && currTime > 0)
             {
                 player.ProgressIncrease(thisProgressAmount, thisProgressCap);

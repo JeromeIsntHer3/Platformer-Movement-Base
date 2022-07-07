@@ -2,12 +2,15 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class TimeCheckSystem : MonoBehaviour
+public class TimeHandler : MonoBehaviour
 {
     [SerializeField]
     private float timeCycle;
     [SerializeField]
     private float internalTimeCycle;
+
+    [SerializeField]
+    private float tick;
 
     [SerializeField]
     private TextMeshProUGUI timeDisplay;
@@ -27,7 +30,7 @@ public class TimeCheckSystem : MonoBehaviour
     {
         if (timeCountdown > 0)
         {
-            timeCountdown -= 1 * Time.deltaTime;
+            timeCountdown -= tick * Time.deltaTime;
         }
         if (timeCountdown <= 0)
         {
@@ -36,13 +39,13 @@ public class TimeCheckSystem : MonoBehaviour
         TimeSpan timePlaying = TimeSpan.FromSeconds(timeCountdown);
         string timeString = timePlaying.ToString("mm':'ss");
         timeDisplay.text = timeString;
-    } 
+    }
 
     void InternalTimeCycle()
     {
         if (internalTimeCountdown > 0)
         {
-            internalTimeCountdown -= 1 * Time.deltaTime;
+            internalTimeCountdown -= tick * Time.deltaTime;
         }
         if (internalTimeCountdown <= 0 && timeCountdown != 0)
         {
@@ -51,6 +54,12 @@ public class TimeCheckSystem : MonoBehaviour
         TimeSpan internalTimePlaying = TimeSpan.FromSeconds(internalTimeCountdown);
         string internalTimeString = internalTimePlaying.ToString("mm':'ss");
         internalTimeDisplay.text = internalTimeString;
+    }
+
+    public void StopTime()
+    {
+        timeCountdown = 0;
+        tick = 0;
     }
 
     public void Update()

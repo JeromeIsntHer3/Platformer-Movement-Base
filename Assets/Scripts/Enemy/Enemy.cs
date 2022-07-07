@@ -4,66 +4,56 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private float range;
-    [SerializeField]
-    private Transform player;
+    private Rigidbody2D rb;
     [SerializeField]
     private float speed;
+    private bool patrol;
+    private bool turn;
     [SerializeField]
-    private float damage;
-
-    private float distToPlayer;
-    private Rigidbody2D rb;
-    private Vector2 moveDir;
+    private Transform groundCheck;
+    [SerializeField]
+    private LayerMask groundLayer;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        patrol = true;
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (player == null) return;
-
-        //Lazy Method
-        //if(DistToPlayer() < range)
-        //{ 
-        //    rb.transform.position = Vector2.Lerp(transform.position, player.position, speed);
-        //}
-        //else
-        //{
-        //    rb.velocity = new Vector2(0, 0); 
-        //}
-        //Diff Method
-        if (DistToPlayer() < range)
+        if (patrol)
         {
-            Vector3 direction = (player.position - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rb.rotation = angle;
-            moveDir = direction;
-            rb.velocity = new Vector2(moveDir.x, moveDir.y) * speed;
-        }
-        else
-        {
-            rb.velocity = new Vector2(0, 0);
+            Patrol();
         }
     }
 
-    float DistToPlayer()
+    void FixedUpdate()
     {
-        distToPlayer = Vector3.Distance(transform.position, player.position);
-        return distToPlayer;
+        if (patrol)
+        {
+            turn = !Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void Patrol()
     {
-        if(other.tag == "Player")
+        if (turn)
         {
-            Player player = other.GetComponent<Player>();
-            player.DOTDam = damage;
-            player.DoDOT = true;
-            Destroy(gameObject);
+            TurnAround();
         }
+        float topSpeedX = speed;
+        topSpeedX = Mathf.Lerp(rb.velocity.x, topSpeedX, 0.5f);
+        rb.velocity = new Vector2(topSpeedX, rb.velocity.y);
+        rb.AddForce(transform.right * topSpeedX);
+    }
+
+    void TurnAround()
+    {
+        patrol = false;
+        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+        speed *= -1;
+        patrol = true;
     }
 }

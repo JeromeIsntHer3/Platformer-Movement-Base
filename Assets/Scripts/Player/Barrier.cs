@@ -6,7 +6,7 @@ public class Barrier : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Enemy")
+        if(other.tag == "Bacteria")
         {
             Destroy(other.gameObject);
         }

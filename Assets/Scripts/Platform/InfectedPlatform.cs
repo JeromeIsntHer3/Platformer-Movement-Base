@@ -12,9 +12,12 @@ public class InfectedPlatform : MonoBehaviour
     [SerializeField]
     private float decreaseRate;
     [SerializeField]
+    private float damage;
+    [SerializeField]
     private Color finalColor;
     private SpriteRenderer sr;
     private bool onPlatform;
+    private Player player;
 
     [SerializeField]
     private string tagCompare;
@@ -29,6 +32,15 @@ public class InfectedPlatform : MonoBehaviour
         if(other.tag == tagCompare)
         {
             onPlatform = true;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if(standOnPercentage >= 100f && other.tag == tagCompare)
+        {
+            player = other.GetComponent<Player>();
+            player.Damage(damage);
         }
     }
 

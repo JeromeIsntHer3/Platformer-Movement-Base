@@ -25,7 +25,7 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
     private float barrierDuration;
 
     [HideInInspector]
-    public TimeCheckSystem tcs;
+    public TimeHandler timeHandler;
 
     //PROPERTIES
     public float CurrHealth { get { return _currHealth; } }
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
 
     void Awake()
     {
-        tcs = FindObjectOfType<TimeCheckSystem>();
+        timeHandler = FindObjectOfType<TimeHandler>();
     }
 
     void Start() { }
