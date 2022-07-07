@@ -20,6 +20,7 @@ public class Bacteria : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = FindObjectOfType<Player>().transform;
     }
 
     void Update()

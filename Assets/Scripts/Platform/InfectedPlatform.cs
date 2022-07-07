@@ -17,14 +17,15 @@ public class InfectedPlatform : MonoBehaviour
     private Color finalColor;
     private SpriteRenderer sr;
     private bool onPlatform;
-    private Player player;
+    private EnemyHandler enemyHandler;
 
     [SerializeField]
     private string tagCompare;
 
     private void Awake()
     {
-        sr = GetComponentInParent<SpriteRenderer>();   
+        sr = GetComponentInParent<SpriteRenderer>();
+        enemyHandler = FindObjectOfType<EnemyHandler>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -39,8 +40,7 @@ public class InfectedPlatform : MonoBehaviour
     {
         if(standOnPercentage >= 100f && other.tag == tagCompare)
         {
-            player = other.GetComponent<Player>();
-            player.Damage(damage);
+            enemyHandler.SpawnBacteria(enemyHandler.BacteriaCount());
         }
     }
 

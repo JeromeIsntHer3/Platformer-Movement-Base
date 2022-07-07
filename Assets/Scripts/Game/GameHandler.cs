@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 
 public class GameHandler : MonoBehaviour
 {
@@ -9,7 +8,6 @@ public class GameHandler : MonoBehaviour
     private GameObject gameOver;
     [SerializeField]
     private GameObject[] toRemove;
-
 
     void Awake()
     {
