@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Notification_1
   m_EditorClassIdentifier: 
   header: FacebookNotification_1
+  info: Blah Blah facebook
   color: {r: 0.3160377, g: 0.76763177, b: 1, a: 1}

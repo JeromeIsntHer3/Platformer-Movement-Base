@@ -9,6 +9,7 @@ public class NotificationSlot : MonoBehaviour
     NotificationData thisNotification;
     PhoneDisplay thisDisplay;
     public TextMeshProUGUI thisHeader;
+    public TextMeshProUGUI thisInfo;
     public Image thisImage;
 
     public void SetNotificationSlot(NotificationData newNotification, PhoneDisplay display)
@@ -19,6 +20,7 @@ public class NotificationSlot : MonoBehaviour
         {
             thisImage.color = thisNotification.color;
             thisHeader.text = thisNotification.header;
+            thisInfo.text = thisNotification.info;
         }
     }
 

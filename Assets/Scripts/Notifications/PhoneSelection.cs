@@ -6,9 +6,22 @@ public class PhoneSelection : MonoBehaviour
 {
     public GameObject phone, main, app1, app2, app3, exit;
 
-    public void OnClickOpen()
+    private void Awake()
     {
-        phone.SetActive(true);
+        phone.SetActive(false);
+        main.SetActive(true);
+    }
+
+    public void OnClickPhoneIcon()
+    {
+        if (phone.activeInHierarchy)
+        {
+            phone.SetActive(false);
+        }
+        else
+        {
+            phone.SetActive(true);
+        }
     }
 
     public void OnClickExit()

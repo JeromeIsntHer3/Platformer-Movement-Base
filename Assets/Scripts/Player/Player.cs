@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
@@ -13,16 +12,28 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
     [SerializeField]
     private float _currProgress;
 
-    [HideInInspector]
-    public float CurrHealth { get { return _currHealth; } }
-    [HideInInspector]
-    public float CurrProgress { get { return _currProgress; } }
-
-    private float dot;
-    private float hot;
+    private float dotDam;
+    private float hotHeal;
+    private bool doDOT;
+    private bool doHOT;
 
     private float prevHealth;
     private float prevProgress;
+
+    [SerializeField]
+    private GameObject barrier;
+    private float barrierDuration;
+
+    private TimeCheckSystem tcs;
+
+    //PROPERTIES
+    public float CurrHealth { get { return _currHealth; } }
+    public float CurrProgress { get { return _currProgress; } }
+    public float DOTDam { get { return dotDam; } set { dotDam = value; } }
+    public float HOTDam { get { return hotHeal; } set { hotHeal = value; } }
+    public bool DoDOT { get { return doDOT; } set { doDOT = value; } }
+    public bool DoHOT { get { return doHOT; } set { doHOT = value; } }
+
     
     //Events for Changes In Health & Progress
     //This Events run and are used in HealthChanged
@@ -59,12 +70,10 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
 
     void Awake()
     {
-
+        tcs = GetComponent<TimeCheckSystem>();
     }
 
-    void Start()
-    {
-    }
+    void Start() { }
 
     #region Interface Functions
     public void Heal(float healAmount)
@@ -81,16 +90,30 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
         if (_currHealth <= 0) _currHealth = 0;
     }
 
-    public void DOT()
+    public void DOT(bool doDOT)
     {
-        prevHealth = _currHealth;
-        _currHealth -= dot * Time.deltaTime;
+        if (doDOT)
+        {
+            prevHealth = _currHealth;
+            _currHealth -= dotDam * Time.deltaTime;
+        }
+        else
+        {
+            dotDam = 0;
+        }
     }
 
-    public void HOT()
+    public void HOT(bool doHOT)
     {
-        prevHealth = _currHealth;
-        _currHealth += hot * Time.deltaTime;
+        if (doHOT)
+        {
+            prevHealth = _currHealth;
+            _currHealth += hotHeal * Time.deltaTime;
+        }
+        else
+        {
+            hotHeal = 0;
+        }
     }
 
     public void ProgressIncrease(float increaseProgress, float cap)
@@ -108,9 +131,33 @@ public class Player : MonoBehaviour, HealthInterfaces, ProgressInterfaces
     }
     #endregion
 
+    public void EnableBarrier()
+    {
+        barrier.SetActive(true);
+        barrierDuration = 10f;
+    }
+
+    public void DisableBarrier()
+    {
+        barrier.SetActive(false);
+    }
+
     void Update()
     {
+        DOT(doDOT);
+        HOT(doHOT);
+
         HealthChanged();
         ProgressChanged();
+
+        if (barrier == null) return;
+        if (barrier.activeInHierarchy && barrierDuration > 0)
+        {
+            barrierDuration -= Time.deltaTime;
+        }
+        else
+        {
+            DisableBarrier();
+        }
     }
 }

@@ -46,6 +46,8 @@ public class Pill : MonoBehaviour
             player = other.GetComponent<Player>();
             player.ProgressIncrease(thisProgressAmount, thisProgressCap);
             player.Heal(thisHealAmount);
+            player.EnableBarrier();
+            player.DoDOT = false;
             Destroy(gameObject, 0.1f);
         }
     }

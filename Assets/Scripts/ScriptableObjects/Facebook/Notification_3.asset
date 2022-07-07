@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Notification_3
   m_EditorClassIdentifier: 
   header: FacebookNotification_3
+  info: bigger bruh
   color: {r: 0.3160377, g: 0.76763177, b: 1, a: 1}

@@ -6,5 +6,6 @@ using UnityEngine;
 public class NotificationData : ScriptableObject
 {
     public string header;
+    public string info;
     public Color color;
 }

@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     private Transform player;
     [SerializeField]
     private float speed;
+    [SerializeField]
+    private float damage;
 
     private float distToPlayer;
     private Rigidbody2D rb;
@@ -52,5 +54,16 @@ public class Enemy : MonoBehaviour
     {
         distToPlayer = Vector3.Distance(transform.position, player.position);
         return distToPlayer;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "Player")
+        {
+            Player player = other.GetComponent<Player>();
+            player.DOTDam = damage;
+            player.DoDOT = true;
+            Destroy(gameObject);
+        }
     }
 }

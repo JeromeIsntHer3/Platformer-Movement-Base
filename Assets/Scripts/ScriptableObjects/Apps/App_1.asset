@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c2e7812936f244a8d3ee85c0de1c52, type: 3}
   m_Name: App_1
   m_EditorClassIdentifier: 
-  header: Facebook
+  header: Neta
   color: {r: 0.25882354, g: 0.40392157, b: 0.69803923, a: 1}
