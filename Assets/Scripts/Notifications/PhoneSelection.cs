@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PhoneSelection : MonoBehaviour
 {
-    public GameObject phone, main, app1, app2, app3, exit;
+    public GameObject phone, main, app1, app2, app3, app4, exit;
 
     private void Awake()
     {
@@ -47,6 +47,12 @@ public class PhoneSelection : MonoBehaviour
         app3.SetActive(true);
     }
 
+    public void OnClickApp4()
+    {
+        OffAll();
+        app4.SetActive(true);
+    }
+
     public void BackToMain()
     {
         OffAll();
@@ -60,6 +66,7 @@ public class PhoneSelection : MonoBehaviour
         app1.SetActive(false);
         app2.SetActive(false);
         app3.SetActive(false);
+        app4.SetActive(false);
         exit.SetActive(false);
     }
 }

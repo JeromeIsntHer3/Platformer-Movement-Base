@@ -114,4 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b88f29509d3194a97ee2c64724b2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisPill: {fileID: 0}
+  thisHealAmount: 0
+  thisProgressAmount: 10
+  thisProgressCap: 30
+  colourType: 0
