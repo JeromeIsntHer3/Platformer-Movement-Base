@@ -8,6 +8,8 @@ public class PlayerInput : MonoBehaviour
     public bool jumpReleased { get; private set; }
 
     public KeyCode jumpKey;
+    public KeyCode pauseKey;
+    public KeyCode swapKey;
 
     void Update()
     {

@@ -7,13 +7,14 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField]
     private float speed;
+    public float damage;
     private bool patrol;
     private bool turn;
     [SerializeField]
     private Transform groundCheck;
     [SerializeField]
     private LayerMask groundLayer;
-
+    
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

@@ -10,35 +10,43 @@ public class CamSwitch : MonoBehaviour
     public GameObject ui2;
     private bool swapped;
 
+    private PlayerInput playerInput;
+    private GameHandler gameHandler;
+
     private void Awake()
     {
+        playerInput = FindObjectOfType<PlayerInput>();
+        gameHandler = FindObjectOfType<GameHandler>();
         ui2.SetActive(false);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (!gameHandler.IsGameOver())
         {
-            swapped = !swapped;
-            if (!swapped)
+            if (Input.GetKeyDown(playerInput.swapKey))
             {
-                cam1.SetActive(true);
-                cam2.SetActive(false);
-            }
-            else
-            {
-                cam1.SetActive(false);
-                cam2.SetActive(true);
-            }
-            if (!swapped)
-            {
-                ui1.SetActive(true);
-                ui2.SetActive(false);
-            }
-            else
-            {
-                ui1.SetActive(false);
-                ui2.SetActive(true);
+                swapped = !swapped;
+                if (!swapped)
+                {
+                    cam1.SetActive(true);
+                    cam2.SetActive(false);
+                }
+                else
+                {
+                    cam1.SetActive(false);
+                    cam2.SetActive(true);
+                }
+                if (!swapped)
+                {
+                    ui1.SetActive(true);
+                    ui2.SetActive(false);
+                }
+                else
+                {
+                    ui1.SetActive(false);
+                    ui2.SetActive(true);
+                }
             }
         }
     }

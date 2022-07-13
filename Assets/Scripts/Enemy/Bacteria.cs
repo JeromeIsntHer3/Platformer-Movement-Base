@@ -61,6 +61,7 @@ public class Bacteria : MonoBehaviour
     {
         if(other.tag == "Player")
         {
+            SoundManager.Instance.PlaySound(SoundManager.Instance.effects[0]);
             Player player = other.GetComponent<Player>();
             player.DOTDam = damage;
             player.DoDOT = true;
