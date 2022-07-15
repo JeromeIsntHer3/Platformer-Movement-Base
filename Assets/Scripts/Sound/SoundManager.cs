@@ -8,6 +8,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource musicSource, effectsSource;
 
+    public AudioSource MusicSource { get { return musicSource; } set { musicSource = value; } }
+    public AudioSource EffectsSource { get { return effectsSource; } set { effectsSource = value; } }
+
     [Header("Gameplay")]
     public AudioClip HitSound;
     public AudioClip DieSound;
