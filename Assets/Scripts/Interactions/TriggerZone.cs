@@ -14,12 +14,27 @@ public class TriggerZone : MonoBehaviour
     //Set the type of triggerzone this is
     public Type typeOfBox;
 
+    private GameHandler gameHandler;
+
+    void Awake()
+    {
+        gameHandler = FindObjectOfType<GameHandler>();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         HealthInterfaces otherObj  = other.GetComponent<HealthInterfaces>();
 
         if (typeOfBox == Type.damage) otherObj.Damage(amount);
         if (typeOfBox == Type.heal) otherObj.Heal(amount);
-        if (typeOfBox == Type.death) Destroy(other.gameObject);
+        if (typeOfBox == Type.death)
+        {
+            if (other.gameObject != null) Destroy(other.gameObject);
+            if (other.tag == "Player")
+            {
+                SoundManager.Instance.PlaySound(SoundManager.Instance.DieSound);
+                gameHandler.GameOver();
+            }
+        }
     }
 }

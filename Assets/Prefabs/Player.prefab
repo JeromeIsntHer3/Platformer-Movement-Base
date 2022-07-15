@@ -260,6 +260,7 @@ MonoBehaviour:
   _currHealth: 100
   _currProgress: 0
   barrier: {fileID: 1888442733}
+  timeHandler: {fileID: 0}
 --- !u!114 &7718073706177768839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpKey: 32
+  pauseKey: 27
+  swapKey: 9
 --- !u!114 &7718073706177768838
 MonoBehaviour:
   m_ObjectHideFlags: 0

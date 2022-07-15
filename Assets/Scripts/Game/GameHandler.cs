@@ -2,56 +2,33 @@ using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
-    private Player player;
-    private PlayerInput playerInput;
-
-    [SerializeField]
-    private GameObject menu;
-    [SerializeField]
-    private GameObject gameOverText;
-    [SerializeField]
-    private GameObject[] toRemove;
+    private UIHandler uiHandler;
+    [HideInInspector]
+    public bool gameOver;
 
     void Awake()
     {
-        player = FindObjectOfType<Player>();
-        playerInput = FindObjectOfType<PlayerInput>();
-        gameOverText.SetActive(false);
-        menu.SetActive(false);
+        uiHandler = FindObjectOfType<UIHandler>();
+        Time.timeScale = 1;
+        gameOver = false;
     }
 
-    private void Start()
+    public void UnpauseGame()
     {
         Time.timeScale = 1;
-        SoundManager.Instance.StopMusic();
-        SoundManager.Instance.PlayLoop(SoundManager.Instance.music[0]);
+        uiHandler.Unpause();
     }
 
-    public bool IsGameOver()
+    public void PauseGame()
     {
-        bool gameOver = false;
-        if (!player) gameOver = true;
-        return gameOver;
+        Time.timeScale = 0;
+        uiHandler.Pause();
     }
 
-    void Update()
+    public void GameOver()
     {
-        if (IsGameOver())
-        {
-            Time.timeScale = 0;
-            gameOverText.SetActive(true);
-            foreach(GameObject go in toRemove)
-            {
-                go.SetActive(false);
-            }
-        }
-
-        if (Input.GetKeyDown(playerInput.pauseKey))
-        {
-            if (!menu.activeInHierarchy)
-            {
-                menu.SetActive(true);
-            }
-        }
+        Time.timeScale = 0;
+        gameOver = true;
+        uiHandler.GameOver();
     }
 }

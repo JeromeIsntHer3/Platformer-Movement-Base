@@ -17,10 +17,13 @@ public class Bacteria : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveDir;
 
+    private SoundManager soundManager;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<Player>().transform;
+        soundManager = FindObjectOfType<SoundManager>();
     }
 
     void Update()
@@ -61,7 +64,7 @@ public class Bacteria : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            SoundManager.Instance.PlaySound(SoundManager.Instance.effects[0]);
+            SoundManager.Instance.PlaySound(SoundManager.Instance.HitSound);
             Player player = other.GetComponent<Player>();
             player.DOTDam = damage;
             player.DoDOT = true;

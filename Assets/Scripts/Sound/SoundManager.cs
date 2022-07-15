@@ -5,12 +5,18 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
-
     [SerializeField]
     private AudioSource musicSource, effectsSource;
 
-    public List<AudioClip> effects;
-    public List<AudioClip> music;
+    [Header("Gameplay")]
+    public AudioClip HitSound;
+    public AudioClip DieSound;
+    public AudioClip JumpSound;
+    public AudioClip landSound;
+    public AudioClip buttonSound;
+    [Header("SoundTrack")]
+    public AudioClip mainMenuTheme;
+    public AudioClip inGameTheme;
 
     void Awake()
     {
@@ -29,16 +35,19 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
+        PlayLoop(inGameTheme);
     }
 
     public void PlaySound(AudioClip clip)
     {
-        effectsSource.PlayOneShot(clip);
+        effectsSource.clip = clip;
+        effectsSource.Play();
     }
 
     public void PlayLoop(AudioClip clip)
     {
-        musicSource.PlayOneShot(clip);
+        musicSource.clip = clip;
+        musicSource.Play();
     }
 
     public void ChangeMasterVolume(float volume)

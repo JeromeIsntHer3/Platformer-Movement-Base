@@ -7,15 +7,13 @@ using UnityEngine.UI;
 public class NotificationSlot : MonoBehaviour
 {
     NotificationData thisNotification;
-    PhoneDisplay thisDisplay;
     public TextMeshProUGUI thisHeader;
     public TextMeshProUGUI thisInfo;
     public Image thisImage;
 
-    public void SetNotificationSlot(NotificationData newNotification, PhoneDisplay display)
+    public void SetNotificationSlot(NotificationData newNotification)
     {
         thisNotification = newNotification;
-        thisDisplay = display;
         if (thisNotification)
         {
             thisImage.color = thisNotification.color;

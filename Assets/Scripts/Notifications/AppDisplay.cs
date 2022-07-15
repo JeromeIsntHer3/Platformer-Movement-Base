@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
-public class PhoneDisplay : MonoBehaviour
+public class AppDisplay : MonoBehaviour
 {
     [SerializeField]
     private NotificationStorage notificationStorage;
@@ -12,19 +9,12 @@ public class PhoneDisplay : MonoBehaviour
     private GameObject display;
     [SerializeField]
     private GameObject notificationPrefab;
-    //[SerializeField]
-    //private TextMeshProUGUI descriptionDisplay;
 
     private void OnEnable()
     {
         ClearSlots();
         SetUpSlots();
     }
-
-    //public void ClickOnDisplay(string desc)
-    //{
-    //    this.descriptionDisplay.text = desc;
-    //}
 
     void SetUpSlots()
     {
@@ -37,7 +27,7 @@ public class PhoneDisplay : MonoBehaviour
                 NotificationSlot newSlot = temp.GetComponent<NotificationSlot>();
                 if (newSlot)
                 {
-                    newSlot.SetNotificationSlot(notification, this);
+                    newSlot.SetNotificationSlot(notification);
                 }
             }
         }

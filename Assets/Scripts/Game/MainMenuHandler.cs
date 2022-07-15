@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuHandler : MonoBehaviour
+public class MainMenuHandler : MonoBehaviour
 {
     [SerializeField]
     private GameObject mainMenu, levelMenu;
@@ -15,16 +13,12 @@ public class MenuHandler : MonoBehaviour
         mainMenu.SetActive(true);
     }
 
-    void Update()
-    {
-        
-    }
-
     public void BackToMainMenu()
     {
         TurnOffAll();
         mainMenu.SetActive(true);
     }
+
     public void PressPlay()
     {
         TurnOffAll();
@@ -34,6 +28,7 @@ public class MenuHandler : MonoBehaviour
 
     void TurnOffAll()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.buttonSound);
         mainMenu.SetActive(false);
         levelMenu.SetActive(false);
         backButton.SetActive(false);

@@ -6,24 +6,26 @@ public class TimeHandler : MonoBehaviour
 {
     [SerializeField]
     private float timeCycle;
-    [SerializeField]
-    private float internalTimeCycle;
+    //[SerializeField]
+    //private float internalTimeCycle;
 
     [SerializeField]
     private float tick;
 
     [SerializeField]
     private TextMeshProUGUI timeDisplay;
-    [SerializeField]
-    private TextMeshProUGUI internalTimeDisplay;
+    //[SerializeField]
+    //private TextMeshProUGUI internalTimeDisplay;
 
     private float timeCountdown;
     public float TimeCountDown { get { return timeCountdown; } }
-    private float internalTimeCountdown;
+    //private float internalTimeCountdown;
 
-    public void Start()
+    public void OnEnable()
     {
         timeCountdown = timeCycle;
+        GameObject display = GameObject.Find("Time");
+        timeDisplay = display.transform.GetComponent<TextMeshProUGUI>();
     }
 
     void TimeCycle()
@@ -41,20 +43,20 @@ public class TimeHandler : MonoBehaviour
         timeDisplay.text = timeString;
     }
 
-    void InternalTimeCycle()
-    {
-        if (internalTimeCountdown > 0)
-        {
-            internalTimeCountdown -= tick * Time.deltaTime;
-        }
-        if (internalTimeCountdown <= 0 && timeCountdown != 0)
-        {
-            internalTimeCountdown = internalTimeCycle;
-        }
-        TimeSpan internalTimePlaying = TimeSpan.FromSeconds(internalTimeCountdown);
-        string internalTimeString = internalTimePlaying.ToString("mm':'ss");
-        internalTimeDisplay.text = internalTimeString;
-    }
+    //void InternalTimeCycle()
+    //{
+    //    if (internalTimeCountdown > 0)
+    //    {
+    //        internalTimeCountdown -= tick * Time.deltaTime;
+    //    }
+    //    if (internalTimeCountdown <= 0 && timeCountdown != 0)
+    //    {
+    //        internalTimeCountdown = internalTimeCycle;
+    //    }
+    //    TimeSpan internalTimePlaying = TimeSpan.FromSeconds(internalTimeCountdown);
+    //    string internalTimeString = internalTimePlaying.ToString("mm':'ss");
+    //    internalTimeDisplay.text = internalTimeString;
+    //}
 
     public void StopTime()
     {

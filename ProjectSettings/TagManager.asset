@@ -9,6 +9,9 @@ TagManager:
   - Buff
   - BuffHolder
   - Enemy
+  - Display
+  - Pause
+  - GameOver
   layers:
   - Default
   - TransparentFX

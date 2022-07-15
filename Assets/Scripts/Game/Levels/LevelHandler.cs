@@ -17,11 +17,6 @@ public class LevelHandler : MonoBehaviour
         SetUpLevels();
     }
 
-    void Update()
-    {
-        
-    }
-
     void SetUpLevels()
     {
         foreach(LevelData level in levels)
