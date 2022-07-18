@@ -1145,7 +1145,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 215902366}
-        m_TargetAssemblyTypeName: MenuHandler, Assembly-CSharp
+        m_TargetAssemblyTypeName: MainMenuHandler, Assembly-CSharp
         m_MethodName: PressPlay
         m_Mode: 1
         m_Arguments:
@@ -1515,9 +1515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757bbc91ce00aeb4a8d530f65f057e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 11400000, guid: 153ee26d31b905d429d25f307ce697b5, type: 2}
-  - {fileID: 11400000, guid: 8930092d7df34f849917feccf54b642d, type: 2}
+  levelHolder: {fileID: 11400000, guid: 6d8b98918f99fef47b5ccac8712ee0cb, type: 2}
   levelPrefab: {fileID: 6350947337227483227, guid: f14fdec24476b1f4c882e217da28d49b, type: 3}
   levelPanel: {fileID: 224449864}
 --- !u!1 &1630994288

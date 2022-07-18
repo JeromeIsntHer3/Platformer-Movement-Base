@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e236462d7b81b54489917f1157e564f, type: 3}
   m_Name: Speed_30
   m_EditorClassIdentifier: 
+  id: 2
   buffDuration: 3
   cullDuration: 0
   newSpeed: 30

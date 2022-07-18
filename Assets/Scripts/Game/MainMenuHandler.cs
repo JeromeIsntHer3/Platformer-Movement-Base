@@ -28,7 +28,6 @@ public class MainMenuHandler : MonoBehaviour
 
     void TurnOffAll()
     {
-        SoundManager.Instance.PlaySound(SoundManager.Instance.buttonSound);
         mainMenu.SetActive(false);
         levelMenu.SetActive(false);
         backButton.SetActive(false);

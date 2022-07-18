@@ -1,5 +1,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Collections;
+using System;
 
 public class UIHandler : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class UIHandler : MonoBehaviour
     private GameObject pauseMenu;
     [SerializeField]
     private GameObject gameOver;
+    [SerializeField]
+    private GameObject settingsMenu;
 
     [Header("Perspective UI")]
     [SerializeField]
@@ -25,26 +29,31 @@ public class UIHandler : MonoBehaviour
 
     private PlayerInput playerInput;
     private bool swap;
-    private GameHandler gameHandler;
+    private bool gamePaused;
 
     void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
-        gameHandler = FindObjectOfType<GameHandler>();
+        reality.SetActive(true);
+        body.SetActive(false);
     }
 
     void Update()
     {
-        if (!gameHandler.gameOver)
+        if (TriggerZone.GameOver == false)
         {
             if (Input.GetKeyDown(playerInput.swapKey))
             {
                 SwapPerspective();
             }
-            if (Input.GetKeyDown(playerInput.pauseKey))
+            if (Input.GetKeyDown(playerInput.pauseKey) && !gamePaused)
             {
-                gameHandler.PauseGame();
+                Pause();
             }
+        }
+        else
+        {
+            GameOver();
         }
     }
 
@@ -70,12 +79,16 @@ public class UIHandler : MonoBehaviour
     #region General Functions
     public void Pause()
     {
-        pauseMenu.SetActive(true);
+        Time.timeScale = 0;
+        gamePaused = true;
+        AnimateUI(pauseMenu,true,0.2f);
     }
 
     public void Unpause()
     {
-        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+        gamePaused = false;
+        AnimateUI(pauseMenu, false, 0.2f);
     }
 
     public void GameOver()
@@ -97,20 +110,32 @@ public class UIHandler : MonoBehaviour
     #region Pause Menu Functions
     public void Resume()
     {
-        gameHandler.UnpauseGame();
+        Unpause();
         SoundManager.Instance.PlaySound(SoundManager.Instance.buttonSound);
     }
 
     public void Settings()
     {
+        AnimateUI(settingsMenu, true, 0.3f);
+        AnimateUI(pauseMenu, false, 0.3f);
+    }
 
+    public void BackToMenu()
+    {
+        AnimateUI(pauseMenu, true, 0.3f);
+        AnimateUI(settingsMenu, false, 0.3f);
     }
 
     public void Quit()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Menu_Demo");
         SoundManager.Instance.PlaySound(SoundManager.Instance.buttonSound);
+        AnimateUI(pauseMenu, false, 0.3f,LoadScene);
+    }
+
+    void LoadScene()
+    {
+        SceneManager.LoadScene("Menu_Demo");
     }
     #endregion
 
@@ -120,6 +145,39 @@ public class UIHandler : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene("In-Game_Demo");
         SoundManager.Instance.PlaySound(SoundManager.Instance.buttonSound);
+    }
+    #endregion
+
+    #region Animation Function
+    void AnimateUI(GameObject go, bool active, float duration, Action func = null)
+    {
+        if (active)
+        {
+            StartCoroutine(WaitForAnimBefore(duration, go, func));
+        }
+        else
+        {
+            StartCoroutine(WaitForAnimAfter(duration, go, func));
+        }
+    }
+    #endregion
+
+
+    #region Coroutines
+    IEnumerator WaitForAnimBefore(float time, GameObject go, Action func)
+    {
+        go.SetActive(true);
+        go.transform.localScale = Vector2.zero;
+        go.transform.LeanScale(Vector2.one, time).setEaseInOutQuart().setIgnoreTimeScale(true);
+        yield return new WaitForSeconds(time);
+        if (func != null) func();
+    }
+    IEnumerator WaitForAnimAfter(float time, GameObject go, Action func)
+    {
+        go.transform.LeanScale(Vector2.zero, time).setEaseInOutQuart().setIgnoreTimeScale(true);
+        yield return new WaitForSeconds(time);
+        go.SetActive(false);
+        if(func != null) func();
     }
     #endregion
 }

@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class LevelData : ScriptableObject
 {
     public string sceneName;
-    public string levelNumber;
 
     public void LoadLevel()
     {

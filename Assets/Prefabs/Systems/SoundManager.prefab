@@ -180,6 +180,7 @@ MonoBehaviour:
   DieSound: {fileID: 0}
   JumpSound: {fileID: 8300000, guid: 3de6c0bccfce5ab44b2511ac20f18078, type: 3}
   landSound: {fileID: 8300000, guid: 33cf1aacb1f79e744abb2f4e0e107db5, type: 3}
+  buttonSound: {fileID: 8300000, guid: 7a812c9f629fac048b4ef9731ae554a3, type: 3}
   mainMenuTheme: {fileID: 8300000, guid: 34c20cfb5dc0b0449a7a2466307e0a3f, type: 3}
   inGameTheme: {fileID: 8300000, guid: bd2562d1bc3b0d5488b5f90b823e1f02, type: 3}
 --- !u!1 &2029080882742391697

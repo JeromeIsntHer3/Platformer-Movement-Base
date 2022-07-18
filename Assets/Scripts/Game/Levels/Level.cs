@@ -9,14 +9,14 @@ public class Level : MonoBehaviour
     private LevelData levelData;
     [SerializeField]
     private TextMeshProUGUI levelNumberDisplay;
-    
 
-    public void SetLevelInfo(LevelData thisLevel)
+
+    public void SetLevelInfo(LevelData thisLevel, int levelNumber)
     {
         levelData = thisLevel;
         if (thisLevel)
         {
-            levelNumberDisplay.text = levelData.levelNumber;
+            levelNumberDisplay.text = levelNumber.ToString();
         }
     }
 
