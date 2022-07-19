@@ -34,8 +34,6 @@ public class UIHandler : MonoBehaviour
     void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
-        reality.SetActive(true);
-        body.SetActive(false);
     }
 
     void Update()

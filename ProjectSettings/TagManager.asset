@@ -12,6 +12,7 @@ TagManager:
   - Display
   - Pause
   - GameOver
+  - Bacteria
   layers:
   - Default
   - TransparentFX

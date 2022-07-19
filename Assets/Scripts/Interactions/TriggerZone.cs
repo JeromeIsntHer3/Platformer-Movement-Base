@@ -14,18 +14,17 @@ public class TriggerZone : MonoBehaviour
     //set damage/heal healAndDamageAmount in inspector for this object
     [SerializeField]
     private float healAndDamageAmount;
+    [SerializeField]
+    private PopUp popUp;
 
-    [SerializeField]
-    private PopUp popup;
-    [SerializeField]
-    private float popupTime;
-    [SerializeField]
-    [Multiline]
-    private string popupInfo;
-    [SerializeField]
-    private Color popupBGColor;
+    private PopUpHandler popUpHandler;
 
     public static bool GameOver;
+
+    void Awake()
+    {
+        popUpHandler = FindObjectOfType<PopUpHandler>();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -42,20 +41,9 @@ public class TriggerZone : MonoBehaviour
                 GameOver = true;
             }
         }
-        if(typeOfBox == Type.popup)
+        if(typeOfBox == Type.popup && other.tag == "Player")
         {
-            if(other.tag == "Player")
-            {
-                StartCoroutine(PopUp());    
-            }
+            popUpHandler.SetUpPopUp(popUp);
         }
-    }
-
-    IEnumerator PopUp()
-    {
-        popup.gameObject.SetActive(true);
-        popup.SetText(popupInfo,popupBGColor);
-        yield return new WaitForSeconds(popupTime);
-        popup.gameObject.SetActive(false);
     }
 }
