@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   buffDuration: 5
-  cullDuration: -0.00079763075
+  buffSprite: {fileID: 21300000, guid: 0673af40d197f7842955b650504e8ef7, type: 3}
   jumps: 2

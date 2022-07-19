@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   buffDuration: 3
-  cullDuration: 0
+  buffSprite: {fileID: 21300000, guid: 0fddaf8692e2b2748ad7fbbfce4ee6ed, type: 3}
   newSpeed: 30

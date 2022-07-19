@@ -27,8 +27,8 @@ public class SingleBuffHolder : MonoBehaviour
     {
         if(other.tag == "Buff")
         {
-            Debug.Log(other.GetComponent<BuffHolder>().thisBuff);
-            currBuff = other.GetComponent<BuffHolder>().thisBuff;
+            Debug.Log(other.GetComponent<GameObjectBuffHolder>().thisBuff);
+            currBuff = other.GetComponent<GameObjectBuffHolder>().thisBuff;
             durationTime = currBuff.buffDuration;
             Destroy(other.gameObject);
         }

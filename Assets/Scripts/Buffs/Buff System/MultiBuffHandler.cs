@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultiBuffHolder : MonoBehaviour
+public class MultiBuffHandler : MonoBehaviour
 {
     private Buff collectedBuff;
+    private DisplayBuffHandler displayBuffHandler;
 
     public List<int> ids;
 
@@ -14,6 +15,7 @@ public class MultiBuffHolder : MonoBehaviour
 
     void Awake()
     {
+        displayBuffHandler = FindObjectOfType<DisplayBuffHandler>();
     }
 
     void Update()
@@ -45,17 +47,21 @@ public class MultiBuffHolder : MonoBehaviour
     {
         if (other.tag == "Buff")
         {
-            collectedBuff = other.GetComponent<BuffHolder>().thisBuff;
+            collectedBuff = other.GetComponent<GameObjectBuffHolder>().thisBuff;
             if (ids.Contains(collectedBuff.id))
             {
                 int index = ids.IndexOf(collectedBuff.id);
                 durationTimes[index] += collectedBuff.buffDuration;
+                displayBuffHandler.ExistingBuffPickedUp(collectedBuff.name,collectedBuff.buffDuration);
             }
             else
             {
                 ids.Add(collectedBuff.id);
                 activeBuffs.Add(collectedBuff);
                 durationTimes.Add(collectedBuff.buffDuration);
+                displayBuffHandler.NewBuffPickedUp(durationTimes.IndexOf(collectedBuff.buffDuration),
+                    collectedBuff.name,collectedBuff.buffSprite);
+
                 collectedBuff = null;
             }
             Destroy(other.gameObject);

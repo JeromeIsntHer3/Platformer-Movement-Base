@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffHolder : MonoBehaviour
+public class GameObjectBuffHolder : MonoBehaviour
 {
     public Buff thisBuff;
 }

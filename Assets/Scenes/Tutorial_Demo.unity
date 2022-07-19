@@ -390,8 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f3ae390b175e843b4232a3a4ed452a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffPanel: {fileID: 794312831}
-  buffUiPrefab: {fileID: 5987723402757259263, guid: 1731c53c243391d44b647441175080ce, type: 3}
+  DisplayUISlotPrefab: {fileID: 7204629912014532068, guid: a50108f6e7a372f49969962aacb53486, type: 3}
+  parentPanel: {fileID: 794312831}
 --- !u!58 &123252172
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa9395d9da0bfa64e95dece46bb6379d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisBuff: {fileID: 11400000, guid: 99cc2648ecd140949b10d861f9860f83, type: 2}
+  thisBuff: {fileID: 11400000, guid: b233e50cfc26aad48b4cc2fc54ae563c, type: 2}
 --- !u!61 &747648866
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -836,10 +836,10 @@ RectTransform:
   m_Father: {fileID: 120893733}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -507, y: -459}
-  m_SizeDelta: {x: 835.0728, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 430, y: 79}
+  m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &794312832
 MonoBehaviour:
@@ -862,9 +862,9 @@ MonoBehaviour:
   m_StartCorner: 2
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 10, y: 0}
-  m_Constraint: 0
-  m_ConstraintCount: 2
+  m_Spacing: {x: 30, y: 60}
+  m_Constraint: 2
+  m_ConstraintCount: 1
 --- !u!114 &794312833
 MonoBehaviour:
   m_ObjectHideFlags: 0
