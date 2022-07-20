@@ -5,8 +5,7 @@ public class CamFollow : MonoBehaviour
     public Transform target;
     public Vector3 offset;
     [Range(1, 10)] public float blend;
-    [Range(0, 10)] public float leftBoundary;
-    [Range(0, 10)] public float rightBoundary;
+    [Range(0, 10)] public float horizontalBoundary;
     [Range(0, 10)] public float topBoundary;
     [Range(0, 10)] public float bottomBoundary;
 
@@ -17,23 +16,40 @@ public class CamFollow : MonoBehaviour
     {
         if (target != null)
         {
-            float leftDist = transform.position.x - leftBoundary;
-            float rightDist = transform.position.x + rightBoundary;
-            float topDist = target.position.y + topBoundary;
-            float bottomDist = target.position.y - bottomBoundary;
+            //float leftPoint = transform.position.x - leftBoundary;
+            //float rightPoint = transform.position.x + rightBoundary;
+            //float topPoint = target.position.y + topBoundary;
+            //float bottomPoint = target.position.y - bottomBoundary;
 
-            bool withinRange = target.position.x > leftDist && target.position.x < rightDist;
+            //bool camBehind = target.position.x > leftPoint;
+            //bool camAhead = target.position.x < rightPoint;
 
-            if (!withinRange)
+            //if (!camBehind)
+            //{
+            //    targetPos = new Vector3(target.position.x, transform.position.y, -10) + offset;
+            //    transform.position = Vector3.Slerp(transform.position, targetPos, blend * Time.deltaTime);
+            //}
+            //else if (!camAhead)
+            //{
+
+            //}
+
+
+
+            float leftPoint = transform.position.x - horizontalBoundary;
+            float rightPoint = transform.position.x + horizontalBoundary;
+
+            bool camBehind = target.position.x < leftPoint;
+            bool camInFront = target.position.x > rightPoint;
+
+            if (!camBehind && !camInFront)
             {
-                targetPos = new Vector3(target.position.x, transform.position.y, -10) + offset;
-                transform.position = Vector3.Slerp(transform.position, targetPos, blend * Time.deltaTime);
-                //transform.position = new Vector3(Mathf.Clamp(transform.position.x, -leftDist, rightDist),
-                //    Mathf.Clamp(transform.position.y, topDist, -bottomDist), transform.position.z);
+                
             }
             else
             {
-                
+                targetPos = new Vector3(target.position.x, transform.position.y, -10) + offset;
+                transform.position = Vector3.Lerp(transform.position, targetPos, blend * Time.deltaTime);
             }
         }
     }

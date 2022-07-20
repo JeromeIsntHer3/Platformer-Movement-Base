@@ -40,6 +40,7 @@ public class InfectedPlatform : MonoBehaviour
     {
         if(standOnPercentage >= 100f && other.tag == tagCompare)
         {
+            if (enemyHandler == null) return;
             if (enemyHandler.BacteriaCount() > 25) return;
             enemyHandler.SpawnBacteria(enemyHandler.BacteriaCount());
         }
